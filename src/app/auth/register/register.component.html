@@ -1,0 +1,331 @@
+<form
+  [formGroup]="registerForm"
+  (ngSubmit)="submitReactiveForm()"
+  class="card p-3"
+>
+  <label for="nameInput">Name</label>
+  <input
+    type="text"
+    name="nameInput"
+    formControlName="nameInput"
+    class="form-control"
+    id="nameInput"
+    minlength="5"
+    maxlength="20"
+  />
+  <div
+    *ngIf="
+      !controlValidation['nameInput'].valid &&
+      controlValidation['nameInput'].touched
+    "
+  >
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['nameInput'].errors?.['required']"
+    >
+      this field is required!!
+    </p>
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['nameInput'].errors?.['minlength']"
+    >
+      Minimum length is 5!
+    </p>
+  </div>
+
+  <label for="emailInput">Email</label>
+  <input
+    type="text"
+    name="emailInput"
+    formControlName="emailInput"
+    id="emailInput"
+    class="form-control"
+  />
+
+  <div
+    *ngIf="
+      !controlValidation['emailInput'].valid &&
+      controlValidation['emailInput'].touched
+    "
+  >
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['emailInput'].errors?.['required']"
+    >
+      this field is required!!
+    </p>
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['emailInput'].errors?.['email']"
+    >
+      Email format is not correct!!
+    </p>
+  </div>
+
+  <label for="userInput">User Name</label>
+  <input
+    class="form-control"
+    type="text"
+    name="userInput"
+    formControlName="userInput"
+    id="userInput"
+  />
+  <div
+    *ngIf="
+      !controlValidation['userInput'].valid &&
+      controlValidation['userInput'].touched
+    "
+  >
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['userInput'].errors?.['required']"
+    >
+      this field is required!!
+    </p>
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['userInput'].errors?.['pattern']"
+    >
+      NO WHITE SPACES ALLOWED!
+    </p>
+  </div>
+  <label for="passwordInput">Password</label>
+  <input
+    class="form-control"
+    type="password"
+    name="passwordInput"
+    formControlName="passwordInput"
+    id="passwordInput"
+  />
+
+  <div
+    *ngIf="
+      !controlValidation['passwordInput'].valid &&
+      controlValidation['passwordInput'].touched
+    "
+  >
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['passwordInput'].errors?.['required']"
+    >
+      this field is required!!
+    </p>
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['passwordInput'].errors?.['minlength']"
+    >
+      Minimum Password length is 8!!
+    </p>
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['passwordInput'].errors?.['pattern']"
+    >
+      Pattern is not correct!must contain at least one of each
+      (uppercase,lowercase,digit,special character)
+    </p>
+  </div>
+  <label for="ConfirmPasswordInput">Confirm Password</label>
+  <input
+    class="form-control"
+    type="password"
+    name="ConfirmPasswordInput"
+    formControlName="ConfirmPasswordInput"
+    id="ConfirmPasswordInput"
+  />
+
+  <div
+    *ngIf="
+      !controlValidation['ConfirmPasswordInput'].valid &&
+      controlValidation['ConfirmPasswordInput'].touched
+    "
+  >
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['ConfirmPasswordInput'].errors?.['required']"
+    >
+      this field is required!!
+    </p>
+    <p
+      class="text-danger"
+      *ngIf="controlValidation['ConfirmPasswordInput'].errors?.['confirmPasswordValidator']"
+    >
+      NotMatched!!
+    </p>
+  </div>
+  <div class="row">
+    <div class="col-md-10">
+      <!-- <button
+        [disabled]="!registerForm.valid"
+        class="btn btn-primary"
+        type="submit"
+      >
+        Register
+      </button> -->
+    </div>
+    <div class="col-md-2">
+      <button
+        [disabled]="!registerForm.valid"
+        class="btn btn-success"
+        type="button"
+        (click)="addAddress()"
+      >
+        Add address
+      </button>
+    </div>
+  </div>
+  <div formArrayName="alternateAddresses">
+    <ng-container *ngFor="let address of addresses.controls; let i = index">
+      <h3>Address {{ i + 1 }}</h3>
+      <form [formGroup]="formAdd" [formGroupName]="i">
+        <label for="addressInput">Address</label>
+
+        <input
+          type="text"
+          formControlName="addressInput"
+          id="addressInput"
+          class="form-control"
+        />
+
+        <div
+          *ngIf="
+            !address.get('addressInput')?.valid &&
+            address.get('addressInput')?.touched
+          "
+        >
+          <p
+            class="text-danger"
+            *ngIf="address.get('addressInput')?.errors?.['required']"
+          >
+            this field is required!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('addressInput')?.errors?.['pattern']"
+          >
+            Pattern is incorrect!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('addressInput')?.errors?.['minlength']"
+          >
+            Minimum length is 6!!
+          </p>
+        </div>
+
+        <label for="streetInput">Street</label>
+
+        <input
+          type="text"
+          formControlName="streetInput"
+          id="streetInput"
+          class="form-control"
+        />
+
+        <div
+          *ngIf="
+            !address.get('streetInput')?.valid &&
+            address.get('streetInput')?.touched
+          "
+        >
+          <p
+            class="text-danger"
+            *ngIf="address.get('streetInput')?.errors?.['required']"
+          >
+            this field is required!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('streetInput')?.errors?.['pattern']"
+          >
+            Pattern is incorrect!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('streetInput')?.errors?.['minlength']"
+          >
+            Minimum length is 6!!
+          </p>
+        </div>
+
+        <label for="cityInput">City</label>
+        <input
+          type="text"
+          formControlName="cityInput"
+          id="cityInput"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            !address.get('cityInput')?.valid &&
+            address.get('cityInput')?.touched
+          "
+        >
+          <p
+            class="text-danger"
+            *ngIf="address.get('cityInput')?.errors?.['required']"
+          >
+            this field is required!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('cityInput')?.errors?.['pattern']"
+          >
+            Pattern is incorrect!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('cityInput')?.errors?.['minlength']"
+          >
+            Minimum length is 6!!
+          </p>
+        </div>
+        <label for="countryInput">Country</label>
+        <input
+          type="text"
+          formControlName="countryInput"
+          id="countryInput"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            !address.get('countryInput')?.valid &&
+            address.get('countryInput')?.touched
+          "
+        >
+          <p
+            class="text-danger"
+            *ngIf="address.get('countryInput')?.errors?.['required']"
+          >
+            this field is required!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('countryInput')?.errors?.['pattern']"
+          >
+            Pattern is incorrect!!
+          </p>
+          <p
+            class="text-danger"
+            *ngIf="address.get('countryInput')?.errors?.['minlength']"
+          >
+            Minimum length is 6!!
+          </p>
+        </div>
+        <button
+          class="btn btn-danger"
+          *ngIf="i >= 0"
+          (click)="deleteAddress(i)"
+        >
+          Delete
+        </button>
+      </form>
+    </ng-container>
+  </div>
+  <button
+    [disabled]="!registerForm.valid && !formAdd.valid"
+    class="btn btn-primary"
+    type="submit"
+  >
+    Register
+  </button>
+</form>

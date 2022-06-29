@@ -1,0 +1,16 @@
+<div class="row" *ngIf="productsCards.length != 0">
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let productCard of productsCards">
+        <app-product-card
+          [product]="productCard"
+          (cardId)="receiveCardId($event, productCard)"
+        >
+        </app-product-card>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <app-wish-list></app-wish-list>
+  </div>
+</div>

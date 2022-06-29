@@ -1,0 +1,47 @@
+<form (ngSubmit)="submitForm(login)" #login="ngForm" (submit)="onSubmit()">
+  <label for="userName">Email Address</label>
+  <input
+    class="form-control"
+    type="text"
+    id="userName"
+    class="form-control"
+    name="email"
+    pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+    #email="ngModel"
+    ngModel
+    required
+  />
+  <div *ngIf="!email.valid && email.touched">
+    <p class="text-danger" *ngIf="email.errors?.['pattern']">
+      Wrong Email format
+    </p>
+    <p class="text-danger" *ngIf="email.errors?.['required']">
+      Please enter Email
+    </p>
+  </div>
+  <label for="password">Password</label>
+  <input
+    class="form-control"
+    type="password"
+    id="password"
+    class="form-control"
+    name="password"
+    #password="ngModel"
+    ngModel
+    required
+    minlength="5"
+    maxlength="20"
+  />
+
+  <div *ngIf="!password.valid && password.touched">
+    <p class="text-danger" *ngIf="password.errors?.['required']">
+      Please enter password
+    </p>
+    <p class="text-danger" *ngIf="password.errors?.['minlength']">
+      Minimum length is 5
+    </p>
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="!login.valid">
+    Login
+  </button>
+</form>

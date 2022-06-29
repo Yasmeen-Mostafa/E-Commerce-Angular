@@ -1,0 +1,28 @@
+<div class="row">
+  <h3 class="text-center m-2 border">Product Details</h3>
+  <div class="card w-25 p-3 col-9 shadow mb-5 bg-white rounded">
+    <ng-template [ngIf]="product">
+      <img [src]="product.images[0]" alt="" />
+      <h2>{{ product.title }}</h2>
+      <p>{{ product.category.name }}</p>
+      <p>{{ product.price }}</p>
+      <div>
+        <button
+          class="btn btn-outline-success w-75"
+          (click)="receiveCardId(product.id)"
+        >
+          Add to card
+        </button>
+        <button
+          class="btn w-25 btn-outline-danger"
+          (click)="addedToWishList(product)"
+        >
+          <i class="fa-solid fa-heart"></i>
+        </button>
+      </div>
+    </ng-template>
+  </div>
+  <div class="col-6 w-25">
+    <app-wish-list></app-wish-list>
+  </div>
+</div>
